@@ -1,7 +1,7 @@
 {
 
   "name": "com.jack.utility-package",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "Jack: Utility Package",
   "description": "A package full of utility and helper code, mainly stuff to reduce having to rewrite code everywhere.",
   "unity": "2019.3",
