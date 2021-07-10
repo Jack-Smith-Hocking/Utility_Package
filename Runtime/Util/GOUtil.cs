@@ -6,48 +6,45 @@ using UnityEngine;
 
 namespace Jack.Utility
 {
-    public static partial class Util
+    /// <summary>
+    /// Utility class for GameObjects & Transforms
+    /// </summary>
+    public static class GOUtil
     {
         /// <summary>
-        /// Utility class for GameObjects & Transforms
+        /// Get component from a GameObject, if there is none then one will be added
         /// </summary>
-        public static class GOUtil
+        /// <param name="obj">GameObject to extract component from</param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T ExtractComponent<T>(GameObject obj) where T : Component
         {
-            /// <summary>
-            /// Get component from a GameObject, if there is none then one will be added
-            /// </summary>
-            /// <param name="obj">GameObject to extract component from</param>
-            /// <typeparam name="T"></typeparam>
-            /// <returns></returns>
-            public static T ExtractComponent<T>(GameObject obj) where T : Component
+            if (obj.IsNull()) return null;
+
+            if (!obj.TryGetComponent<T>(out T _returnComp)) _returnComp = obj.AddComponent<T>();
+
+            return _returnComp;
+        }
+
+        /// <summary>
+        /// Get first child transform that matches 'childName', return null if none found
+        /// </summary>
+        /// <param name="childName">Name of child to find</param>
+        /// <param name="root">The transform to check the children of</param>
+        /// <returns></returns>
+        public static Transform GetChild(Transform root, string childName)
+        {
+            for (int _childIndex = 0; _childIndex < root.childCount; _childIndex++)
             {
-                if (obj.IsNull()) return null;
+                Transform _parent = root.GetChild(_childIndex);
 
-                if (!obj.TryGetComponent<T>(out T _returnComp)) _returnComp = obj.AddComponent<T>();
-
-                return _returnComp;
-            }
-
-            /// <summary>
-            /// Get first child transform that matches 'childName', return null if none found
-            /// </summary>
-            /// <param name="childName">Name of child to find</param>
-            /// <param name="root">The transform to check the children of</param>
-            /// <returns></returns>
-            public static Transform GetChild(Transform root, string childName)
-            {
-                for (int _childIndex = 0; _childIndex < root.childCount; _childIndex++)
+                if (_parent.name == childName)
                 {
-                    Transform _parent = root.GetChild(_childIndex);
-
-                    if (_parent.name == childName)
-                    {
-                        return _parent;
-                    }
+                    return _parent;
                 }
-
-                return null;
             }
+
+            return null;
         }
     }
 
