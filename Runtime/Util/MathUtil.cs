@@ -29,9 +29,11 @@ namespace Jack.Utility
         public static float DotToDegree(float dotProduct) => Mathf.Acos(dotProduct) * Mathf.Rad2Deg;
 
         /// <summary>
-        /// Check if a layer is set in a bit mask
+        /// Check if a number is set in a binary field, e.g: 010 is set in 011
         /// </summary>
-        public static bool InLayerMask(int layer, int mask) => layer == (layer | (1 << mask));
+        public static bool IsBinrayInField(int num, int binField) => num == (binField & num);
+
+        public static bool InLayerMask(int layer, int mask) => (mask & (1 << layer)) != 0;
         /// <summary>
         /// Check if a layer is set in a bit mask
         /// </summary>
