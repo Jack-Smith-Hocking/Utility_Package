@@ -1,36 +1,36 @@
 ﻿using NUnit.Framework;
 using UnityEngine;
 using Jack.Utility;
-using NUnit.Framework.Constraints;
 
 namespace Tests
 {
-    public class Tests_MathUtil
+    public static class Approx
     {
         public static float TestFloatDelta => 0.00001f;
 
-        #region ApproxEqual
-        private bool AreApproxEqual(float expected, float actual)
+        public static bool AreEqual(float expected, float actual)
         {
             return MathUtil.InRange(expected, actual - TestFloatDelta, actual + TestFloatDelta);
         }
-        private bool AreApproxEqual(Vector3 expected, Vector3 actual)
+        public static bool AreEqual(Vector3 expected, Vector3 actual)
         {
-            bool _areEqual = AreApproxEqual(expected.x, actual.x);
-            _areEqual = _areEqual && AreApproxEqual(expected.y, actual.y);
-            _areEqual = _areEqual && AreApproxEqual(expected.z, actual.z);
+            bool _areEqual = AreEqual(expected.x, actual.x);
+            _areEqual = _areEqual && AreEqual(expected.y, actual.y);
+            _areEqual = _areEqual && AreEqual(expected.z, actual.z);
 
             return _areEqual;
         }
-        #endregion
+    }
 
+    public class Tests_MathUtil
+    {
         [Test]
         public void Test_Rotate_Vector_By_Degrees()
         {
             void TestRotationByDegrees(float angle, Vector3 dir, Vector3 expected)
             {
                 Vector3 _rot = MathUtil.RotateBy(angle, Vector3.up, dir);
-                bool _rotPassed = AreApproxEqual(expected, _rot);
+                bool _rotPassed = Approx.AreEqual(expected, _rot);
 
                 Assert.IsTrue(_rotPassed);
             }
@@ -103,7 +103,7 @@ namespace Tests
                 Vector3 _dir = end - start;
                 Vector3 _calcDir = MathUtil.Direction(start, end);
 
-                Assert.IsTrue(AreApproxEqual(_dir, _calcDir));
+                Assert.IsTrue(Approx.AreEqual(_dir, _calcDir));
             }
 
             TestCalculateDirection(Vector3.zero, Vector3.forward);
